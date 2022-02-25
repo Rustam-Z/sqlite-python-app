@@ -64,8 +64,8 @@ def main():
         # 6. Delete the data
         delete_with_id(con, PROJECTS_TABLE_NAME, 2)
         delete_with_id(con, TASKS_TABLE_NAME, 3)
-        delete_all(con, TASKS_TABLE_NAME)
-        delete_all(con, PROJECTS_TABLE_NAME)
+        # delete_all(con, TASKS_TABLE_NAME)
+        # delete_all(con, PROJECTS_TABLE_NAME)
 
 
 if __name__ == "__main__":

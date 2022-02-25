@@ -101,9 +101,9 @@ ENV/
 .mypy_cache/
 
 # IntelliJ IDEA
-.idea
 *.iml
 
 .idea/
 .htmlcov/
 .DS_Store
+.DS_Store/
