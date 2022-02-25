@@ -104,5 +104,6 @@ ENV/
 .idea
 *.iml
 
+.idea/
 .htmlcov/
 .DS_Store
