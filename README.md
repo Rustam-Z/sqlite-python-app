@@ -1,4 +1,6 @@
 # Python & SQL
+Using clean code principles and DRY. If you need to change the table's structure in the future, go ahead and add the things you need in `tables` directory. All changed will be sync in insert, update transactions.
+
 
 Objectives:
 1. Create a database / connect to existing database
