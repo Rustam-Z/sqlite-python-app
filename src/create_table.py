@@ -6,6 +6,10 @@ from src.create_database import create_con
 def create_table(con, table_name, table_columns):
     """
     Creates a table in the database.
+    :param con: Connection to the database.
+    :param table_name: Name of the table.
+    :param table_columns: Columns of the table.
+    :return: None
     """
     with con:
         cur = con.cursor()

@@ -1,4 +1,5 @@
 import sqlite3
+import importlib
 
 
 def is_id_exists(con, table, id):
@@ -10,40 +11,35 @@ def is_id_exists(con, table, id):
     return obj.fetchone()
 
 
-def update_project(con, project_id, new_values):
+def update(con, table_name, id, data):
     """
-    Update a project in the database.
+    Update any table in the database.
 
     :param con: Database connection.
-    :param project_id: Project ID which needs to be updated.
-    :param new_values: Dict with the new values, you don't need to specify the columns you don't want to change.
+    :param table_name: Table name.
+    :param id: ID which needs to be updated.
+    :param data: Dict with the new values, you don't need to specify the columns you don't want to change.
     :return: True if the update was successful, False otherwise.
     """
-    table_name = "projects"
-    table_columns = ("name", "begin_date", "end_date")
+    tables = "tables." + table_name
+    table = importlib.import_module(tables)
+    table_columns = table.COLUMNS
 
     # Check if the project exists
-    obj = is_id_exists(con, table_name, project_id)
+    obj = is_id_exists(con, table_name, id)
 
     if not obj:
         return False
 
     # Overwrite project_as_dict with new_values
-    project_as_dict = {key: value for key, value in zip(table_columns, obj[1:])}  # We don't need the first column
-    print(">> project_as_dict", project_as_dict)
-    project_as_dict.update(new_values)
+    obj_as_dict = {key: value for key, value in zip(table_columns, obj[1:])}  # We don't need the first column
+    obj_as_dict.update(data)
+    obj_as_str = ",".join(f"{key} = '{value}'" for key, value in obj_as_dict.items())
 
     try:
-        con.execute(f"UPDATE {table_name} SET name = ?,  begin_date = ?, end_date = ? WHERE id = ?", (
-            project_as_dict['name'],
-            project_as_dict['begin_date'],
-            project_as_dict['end_date'],
-            project_id))
+        query = f"UPDATE {table_name} SET {obj_as_str} WHERE id = {id}"
+        con.execute(query)
     except sqlite3.Error as e:
         print("Error: {}".format(e))
         return False
     return True
-
-
-def update_task(con, task_id, new_values):
-    table_columns = ("name", "priority", "status", "project_id", "begin_date", "end_date")

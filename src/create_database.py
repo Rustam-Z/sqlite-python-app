@@ -11,6 +11,7 @@ from decouple import config
 def create_con(db_name):
     """
     Create a connection to the database.
+    :param db_name: Name of the database.
     """
     try:
         con = sqlite3.connect(db_name)
